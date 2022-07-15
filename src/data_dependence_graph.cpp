@@ -12,8 +12,22 @@ Node *DDG::addNode(Value *v, std::string str, node_type_t type) {
   return node;
 }
 
+Node *DDG::addNode(Value *v, node_type_t type) {
+  Node *node = new Node(v, getValueName(v), type);
+  nodes[v] = node;
+  // nodes.push_back(node(v, str));
+  return node;
+}
+
 Node *DDG::addNode(Value *v, std::string str) {
   Node *node = new Node(v, str);
+  nodes[v] = node;
+  // nodes.push_back(node(v, str));
+  return node;
+}
+
+Node *DDG::addNode(Value *v) {
+  Node *node = new Node(v, getValueName(v));
   nodes[v] = node;
   // nodes.push_back(node(v, str));
   return node;
@@ -28,7 +42,7 @@ Node *DDG::addNode(Value *v, Node *n) {
 Node *DDG::getNode(Value *v) { return nodes[v]; }
 
 Node *DDG::getOrAddNode(Value *v, std::string str, node_type_t type) {
-  auto node = nodes[v];
+  auto node = getNode(v);
   if (!node) {
     return addNode(v, str, type);
   }
@@ -36,9 +50,25 @@ Node *DDG::getOrAddNode(Value *v, std::string str, node_type_t type) {
 }
 
 Node *DDG::getOrAddNode(Value *v, std::string str) {
-  auto node = nodes[v];
+  auto node = getNode(v);
   if (!node) {
     return addNode(v, str);
+  }
+  return node;
+}
+
+Node *DDG::getOrAddNode(Value *v, node_type_t type) {
+  auto node = getNode(v);
+  if (!node) {
+    return addNode(v, type);
+  }
+  return node;
+}
+
+Node *DDG::getOrAddNode(Value *v) {
+  auto node = getNode(v);
+  if (!node) {
+    return addNode(v);
   }
   return node;
 }
@@ -152,6 +182,9 @@ void DDG::dumpGraph(std::string &file_name, const std::string &func_name) {
   for (node_list::iterator node = nodes.begin(), node_end = nodes.end();
        node != node_end; ++node) {
     auto dest = node->first;
+    if (node->second == nullptr) {
+      continue;
+    }
     for (auto src : node->second->getInNodes()) {
       file << "\tNode" << src->getValue() << " -> Node" << dest << "\n";
     }

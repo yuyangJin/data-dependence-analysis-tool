@@ -104,7 +104,7 @@ inst_type_t getInstType(Value *inst) {
 
 inst_type_t getInstType(Instruction *inst) {
   if (inst == nullptr) {
-    return NO_INST;
+    return NO_INS;
   }
   // errs() << "type:" << *inst << '\n';
   if (isa<CallInst>(inst)) {
@@ -113,23 +113,31 @@ inst_type_t getInstType(Instruction *inst) {
     if (callee) {
       std::string callee_name = callee->getName().str();
       if (callee_name.compare(std::string("malloc")) == 0) {
-        return MALLOC;
+        return MALLOC_INS;
       } else if (callee_name.compare(std::string("_Znam")) == 0) {
-        return MALLOC;
-      } else if (startWith(callee_name, std::string("MPI"))) {
-        return MPI;
+        return MALLOC_INS;
+      } else if (callee_name.compare(std::string("llvm.dbg.declare")) == 0) {
+        return VAL_DCL_INS;
+      } else if (callee_name.compare(std::string("llvm.dbg.value")) == 0) {
+        return VAL_DEF_INS;
+      }
+      // } else if (startWith(callee_name, std::string("MPI"))) {
+      //   return MPI_INS;
+      // }
+      else {
+        return CALL_INS;
       }
     }
   } else if (isa<AllocaInst>(inst)) {
-    return MALLOC;
+    return MALLOC_INS;
   } else if (isa<GetElementPtrInst>(inst)) {
-    return GEP;
+    return GEP_INS;
   } else if (isa<CastInst>(inst)) {
-    return CAST;
+    return CAST_INS;
   } else if (isa<LoadInst>(inst)) {
-    return LOAD;
+    return LOAD_INS;
   } else if (isa<StoreInst>(inst)) {
-    return STORE;
+    return STORE_INS;
   }
-  return BIN;
+  return BIN_INS;
 }

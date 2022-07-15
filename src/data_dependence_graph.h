@@ -30,14 +30,21 @@ private:
 public:
   Node *addNode(Value *, std::string, node_type_t);
   Node *addNode(Value *, std::string);
-  Node *getNode(Value *);
+  Node *addNode(Value *, node_type_t);
+  Node *addNode(Value *);
   Node *addNode(Value *, Node *);
+
+  Node *getNode(Value *v);
+
   Node *getOrAddNode(Value *, std::string, node_type_t);
   Node *getOrAddNode(Value *, std::string);
+  Node *getOrAddNode(Value *, node_type_t);
+  Node *getOrAddNode(Value *);
+
   // void addEdge(Value *, std::string, Value *, std::string);
   void addEdge(Node *n1, Node *n2);
   void clear();
-  // Value*
+
   void getDefValues(Instruction *inst, std::vector<Value *> &);
   Value *getUseValue(Instruction *inst);
   void dumpGraph(std::string &file, Function *F);

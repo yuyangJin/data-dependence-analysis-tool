@@ -13,14 +13,18 @@
 #include "common.h"
 
 enum inst_type_t {
-  MALLOC = 0,
-  STORE = 1,
-  LOAD = 2,
-  MPI = 3,
-  GEP = 4,
-  CAST = 5,
-  BIN = 6,
-  NO_INST = 7
+  MALLOC_INS = 0,
+  STORE_INS = 1,
+  LOAD_INS = 2,
+  // MPI_INS = 3,
+  GEP_INS = 4,
+  CAST_INS = 5,
+  BIN_INS = 6,
+  NO_INS = 7,
+  VAL_DCL_INS = 8,
+  VAL_DEF_INS = 9,
+  CALL_INS = 10,
+  EXT_CALL_INS = 11
 
 };
 

@@ -10,6 +10,9 @@ void Node::setLatestAccess(Value *val) { _latest_access = val; }
 
 Value *Node::getLatestAccess() { return _latest_access; }
 
+void Node::setGepObjNode(Node *n) { _gep_obj_node = n; }
+Node *Node::getGepObjNode() { return _gep_obj_node; }
+
 std::vector<Node *> &Node::getInNodes() { return _in_nodes; }
 std::vector<Node *> &Node::getOutNodes() { return _out_nodes; }
 bool Node::addInNode(Node *e) {
